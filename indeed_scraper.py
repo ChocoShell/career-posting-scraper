@@ -10,17 +10,9 @@ import pandas as pd
 import numpy as np
 # Plotting library
 # import matplotlib as plt
-# Time library to create timestamps for filenames
-import time
-# Creating Folders
-import os
 
-def create_folder(directory):
-    try:
-        if not os.path.exists(directory):
-            os.makedirs(directory)
-    except OSError:
-        print ('Error: Creating directory. ' + directory)
+# Custom library to create folders
+from utils import create_folder, save_data
 
 # ### Query Params in Indeed URL
 # - q= refers to the query, usually the job title and salary you want
@@ -90,21 +82,17 @@ def search_indeed(query, cities, max_results_per_city, null_value=None):
     return df
 
 def clean_data(df):
+    df_copy = df.copy()
     # dropping duplicates
-    df_copy = df.drop_duplicates()
+    df_copy.drop_duplicates(inplace=True)
     # getting rid of newlines in company
     df_copy.company.replace(regex=True,inplace=True,to_replace=["\n", "\r"],value="")
     # getting rid of $ in salary
     df_copy.salary.replace(regex=True, inplace=True, to_replace=["\n", "\r", "\$"], value="")
     df_copy.loc[:, 'url'] = "https://www.indeed.com/viewjob?jk=" + df_copy.loc[:, 'url']
+    df_copy.dropna(subset=['url'], inplace=True)
     df_copy.reset_index(drop=True, inplace=True)
     return df_copy
-
-def save_data(df, query):
-    timestr = time.strftime("%Y_%m_%d-%H%M%S")
-    filename = f"{query}-{timestr}"
-    df.to_csv(f"{filename}.csv" , sep=',', encoding='utf-8')
-    return filename
 
 # Code to get all descriptions from urls and append filenames to desc column
 # Getting one posting worth of data
@@ -116,19 +104,21 @@ def save_data(df, query):
 # main_content = soups.find('div', {'class': "jobsearch-JobComponent icl-u-xs-mt--sm jobsearch-JobComponent-bottomDivider"})
 # job_description = soups.find('div', {'class': "jobsearch-JobComponent-description icl-u-xs-mt--md"})
 # print(job_description.get_text("  ", strip=True).strip())
-def posting_scraper(data, filename):
+def posting_scraper(data, dir_path):
     x,y = data.shape
     desc_df = pd.DataFrame()
-    dir_path = f'./{filename}/'
     create_folder(dir_path)
     for i in range(x):
         url = data.iloc[i]['url']
-        html = requests.get(url).text
-        soups = bs4.BeautifulSoup(html, "html.parser")
-        job_description = soups.find('div', {'class': "jobsearch-JobComponent-description icl-u-xs-mt--md"})
-        description = job_description.get_text("  ", strip=True).strip()
-        desc_filename = f'{dir_path}{filename}_{i}.txt'
-        with open(desc_filename, 'w', encoding='utf-8') as the_file:
-            the_file.write(description)
-        desc_df.at[i, 'desc'] = desc_filename
+        try:
+            html = requests.get(url).text
+            soups = bs4.BeautifulSoup(html, "html.parser")
+            job_description = soups.find('div', {'class': "jobsearch-JobComponent-description icl-u-xs-mt--md"})
+            description = job_description.get_text("  ", strip=True).strip()
+            desc_filename = f'{dir_path}/{i}.txt'
+            with open(desc_filename, 'w', encoding='utf-8') as the_file:
+                the_file.write(description)
+            desc_df.at[i, 'desc'] = desc_filename
+        except:
+            print(f"Cannot find url of {data.iloc[i]}")
     return desc_df
