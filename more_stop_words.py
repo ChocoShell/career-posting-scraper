@@ -60,7 +60,7 @@ more_stop_words = frozenset(['00', '000', '2018', 'ability', 'able', 'accept',
     'standard', 'standards', 'start', 'state', 'states', 'status', 'stay', 'strategic',
     'strong', 'structures', 'succeed', 'success', 'successful', 'support',
     'systems', 'talented', 'team', 'teams', 'technical', 'techniques',
-    'technologies', 'technology', 'test', 'testing', 'think', 'thrive', 'time',
+    'technologies', 'technology', 'test', 'testing', 'think', 'thrive',
     'tools', 'total', 'track', 'type', 'understand', 'understanding', 'united',
     'unsolicited', 'usa', 'use', 'used', 'user', 'users', 'using', 'value',
     'variety', 'various', 'verbal', 'verily', 'veteran', 'view', 'visual',
@@ -75,5 +75,8 @@ more_stop_words = frozenset(['00', '000', '2018', 'ability', 'able', 'accept',
     'multiple', 'digital', 'communicate', 'tech', 'align', 'decision', 'leverage', 'major',
     'approach', 'expression', 'protected', 'initiatives', 'public','tasks', 'staff', 'style',
     'pipelines', 'significant',  'managing','place','10', 'desire', 'paid', 'compensation',
-    'consideration','latest', 'research', 'models'
+    'consideration','latest', 'research', 'models', 'criminal', 'google', 'medical', 'amazon',
+    'spotify', 'akuna', 'gartner', 'microsoft', 'vision', 'dental', 'supportive', 'residence'
 ])
+# removed word medical because it shows up too often in benefits section
+# Removing company names because they show up too much
