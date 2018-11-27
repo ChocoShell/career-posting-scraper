@@ -10,7 +10,8 @@ import pandas as pd
 import numpy as np
 # Plotting library
 # import matplotlib as plt
-
+# For Fetching Exceptions
+import sys
 # Custom library to create folders
 from utils import create_folder, save_data
 
@@ -104,7 +105,7 @@ def clean_data(df):
 # main_content = soups.find('div', {'class': "jobsearch-JobComponent icl-u-xs-mt--sm jobsearch-JobComponent-bottomDivider"})
 # job_description = soups.find('div', {'class': "jobsearch-JobComponent-description icl-u-xs-mt--md"})
 # print(job_description.get_text("  ", strip=True).strip())
-def posting_scraper(data, dir_path, drop_old_postings=False):
+def posting_scraper(data, dir_path, drop_old_postings=False, li_search=True):
     x,y = data.shape
     desc_df = pd.DataFrame()
     create_folder(dir_path)
@@ -116,7 +117,10 @@ def posting_scraper(data, dir_path, drop_old_postings=False):
             job_footer = soups.find('div', {'class': "jobsearch-JobMetadataFooter"})
             if(drop_old_postings and ('30+' not in job_footer.get_text())):
                 job_description = soups.find('div', {'class': "jobsearch-JobComponent-description icl-u-xs-mt--md"})
-                description = job_description.get_text("  ", strip=True).strip()
+                if li_search:
+                    description = ' '.join([x.get_text(strip=True) for x in job_description.find_all('li')])
+                else:
+                    description = job_description.get_text("  ", strip=True).strip()
                 desc_filename = f'{dir_path}/{i}.txt'
                 with open(desc_filename, 'w', encoding='utf-8') as the_file:
                     the_file.write(description)
@@ -125,4 +129,6 @@ def posting_scraper(data, dir_path, drop_old_postings=False):
                 desc_df.at[i, 'desc'] = None
         except:
             print(f"Cannot find url of {data.iloc[i]}")
+            e = sys.exc_info()[0]
+            print(f"<p>Error: {e}</p>")
     return desc_df

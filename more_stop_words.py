@@ -78,7 +78,11 @@ more_stop_words = frozenset(['00', '000', '2018', 'ability', 'able', 'accept',
     'consideration','latest', 'research', 'models', 'criminal', 'google', 'medical', 'amazon',
     'spotify', 'akuna', 'gartner', 'microsoft', 'vision', 'dental', 'supportive', 'residence',
     'regeneron', 'avigilon', 'deloitte', 'indellient', 'computer', 'salesforce', 'morgan', 'wework',
-    'mastercard', 'clarifai', 'reddit', 'adobe', 'alexa', 'corelogic'
+    'mastercard', 'clarifai', 'reddit', 'adobe', 'alexa', 'corelogic', 'write', 'legends', 'literate',
+    'paradigms', 'elevate', 'academics', 'inspires', 'evangelist', 'openrefine', 'technologists',
+    'twitch', 'palantir', 'appdynamics', 'fitbit', 'aetna', 'foursquare', 'fluz', 'koupon',
+    'liveramp', 'jask', 'quantium', 'salsify', 'bose', 'halo', 'jll', 'language', 'waltham'
 ])
 # removed word medical because it shows up too often in benefits section
 # Removing company names because they show up too much
+# Language added because 'programming language'
