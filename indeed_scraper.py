@@ -104,7 +104,7 @@ def clean_data(df):
 # main_content = soups.find('div', {'class': "jobsearch-JobComponent icl-u-xs-mt--sm jobsearch-JobComponent-bottomDivider"})
 # job_description = soups.find('div', {'class': "jobsearch-JobComponent-description icl-u-xs-mt--md"})
 # print(job_description.get_text("  ", strip=True).strip())
-def posting_scraper(data, dir_path):
+def posting_scraper(data, dir_path, drop_old_postings=False):
     x,y = data.shape
     desc_df = pd.DataFrame()
     create_folder(dir_path)
@@ -113,12 +113,16 @@ def posting_scraper(data, dir_path):
         try:
             html = requests.get(url).text
             soups = bs4.BeautifulSoup(html, "html.parser")
-            job_description = soups.find('div', {'class': "jobsearch-JobComponent-description icl-u-xs-mt--md"})
-            description = job_description.get_text("  ", strip=True).strip()
-            desc_filename = f'{dir_path}/{i}.txt'
-            with open(desc_filename, 'w', encoding='utf-8') as the_file:
-                the_file.write(description)
-            desc_df.at[i, 'desc'] = desc_filename
+            job_footer = soups.find('div', {'class': "jobsearch-JobMetadataFooter"})
+            if(drop_old_postings and ('30+' not in job_footer.get_text())):
+                job_description = soups.find('div', {'class': "jobsearch-JobComponent-description icl-u-xs-mt--md"})
+                description = job_description.get_text("  ", strip=True).strip()
+                desc_filename = f'{dir_path}/{i}.txt'
+                with open(desc_filename, 'w', encoding='utf-8') as the_file:
+                    the_file.write(description)
+                desc_df.at[i, 'desc'] = desc_filename
+            else:
+                desc_df.at[i, 'desc'] = None
         except:
             print(f"Cannot find url of {data.iloc[i]}")
     return desc_df

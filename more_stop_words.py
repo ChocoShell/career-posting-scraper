@@ -4,14 +4,14 @@ more_stop_words = frozenset(['00', '000', '2018', 'ability', 'able', 'accept',
     'applicants', 'application', 'applications', 'apply', 'applying',
     'approaches', 'appropriate', 'approved', 'apps', 'architecture', 'area',
     'areas', 'asset', 'assets', 'authorization', 'available', 'background',
-    'based', 'basic', 'basis', 'benefit', 'benefits', 'best', 'better', 'big',
+    'based', 'basic', 'basis', 'benefit', 'benefits', 'best', 'better',
     'billions', 'brand', 'bring', 'broad', 'build', 'building', 'business',
     'businesses', 'candidate', 'candidateaccommodations', 'candidates', 'care',
     'career', 'careers', 'cases', 'celebrate', 'challenges', 'challenging',
     'chance', 'change', 'citizenship', 'city', 'class', 'client', 'clients',
     'closely', 'cloud', 'code', 'coding', 'collaborate', 'collaboration',
     'color', 'com', 'committed', 'communication', 'community', 'companies',
-    'company', 'complex', 'computer', 'computing', 'concepts', 'consider',
+    'company', 'complex', 'computing', 'concepts', 'consider',
     'consistent', 'consulting', 'continue', 'contribute', 'control', 'core',
     'cover', 'create', 'creating', 'creative', 'critical', 'culture',
     'current', 'currently', 'customer', 'customers', 'cutting', 'data', 'day',
@@ -76,7 +76,9 @@ more_stop_words = frozenset(['00', '000', '2018', 'ability', 'able', 'accept',
     'approach', 'expression', 'protected', 'initiatives', 'public','tasks', 'staff', 'style',
     'pipelines', 'significant',  'managing','place','10', 'desire', 'paid', 'compensation',
     'consideration','latest', 'research', 'models', 'criminal', 'google', 'medical', 'amazon',
-    'spotify', 'akuna', 'gartner', 'microsoft', 'vision', 'dental', 'supportive', 'residence'
+    'spotify', 'akuna', 'gartner', 'microsoft', 'vision', 'dental', 'supportive', 'residence',
+    'regeneron', 'avigilon', 'deloitte', 'indellient', 'computer', 'salesforce', 'morgan', 'wework',
+    'mastercard', 'clarifai', 'reddit', 'adobe', 'alexa', 'corelogic'
 ])
 # removed word medical because it shows up too often in benefits section
 # Removing company names because they show up too much
